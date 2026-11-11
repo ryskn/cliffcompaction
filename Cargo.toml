@@ -1,0 +1,42 @@
+# Rust port of CliffCompaction.
+#
+# Two crates, split along the functional-core / imperative-shell line:
+#
+#   cliff-core  pure, synchronous, deterministic: canonicalization, hashing,
+#               dialects, compaction, the prefix store and the request engine.
+#               No IO, no async — callable from any thread pool and testable
+#               without a runtime.
+#   cliff       the IO shell: the HTTP proxy (tokio + axum + reqwest), the
+#               event hub, the CLI, daemon management and `cliff watch`.
+#
+# The Python package in src/cliffcompaction stays the reference
+# implementation (test oracle) until the port reaches parity; see
+# docs/rust-migration.md.
+
+[workspace]
+resolver = "3"
+members = ["crates/cliff-core", "crates/cliff"]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+license = "MIT"
+authors = ["Trang Nguyen"]
+repository = "https://github.com/nguyenvuthientrang/cliffcompaction"
+rust-version = "1.85"
+
+[workspace.dependencies]
+cliff-core = { path = "crates/cliff-core" }
+# preserve_order: object keys keep their input order, like Python dicts.
+# arbitrary_precision: numbers keep their source text, like Python ints.
+serde_json = { version = "1", features = ["preserve_order", "arbitrary_precision"] }
+serde = { version = "1", features = ["derive"] }
+sha2 = { version = "0.10", features = ["asm"] }  # ARMv8/x86 SHA extensions (hashlib gets them from OpenSSL)
+regex = "1"
+log = "0.4"
+rayon = "1"
+hashlink = "0.10"
+
+[profile.release]
+lto = "thin"
+codegen-units = 4

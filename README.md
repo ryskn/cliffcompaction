@@ -172,6 +172,14 @@ uv sync
 uv run pytest
 ```
 
+A Rust implementation lives in `crates/` (same CLI, daemon and wire behavior; verified byte-for-byte against this package). See [docs/rust-migration.md](docs/rust-migration.md).
+
+```bash
+cargo test                                          # includes the golden parity corpus
+uv run python scripts/conformance.py fuzz --n 3000  # differential fuzzing against the Python oracle
+cargo build --release && ./target/release/cliff serve
+```
+
 </details>
 
 ## Citation

@@ -1,0 +1,37 @@
+[package]
+name = "cliffcompaction"
+description = "CliffCompaction — autocompaction for coding agents, as a transparent API proxy"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+rust-version.workspace = true
+
+[[bin]]
+name = "cliff"
+path = "src/main.rs"
+
+[lib]
+name = "cliff"
+path = "src/lib.rs"
+
+[dependencies]
+cliff-core.workspace = true
+serde_json.workspace = true
+sha2.workspace = true
+regex.workspace = true
+log.workspace = true
+rayon.workspace = true
+hashlink.workspace = true
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "net", "signal", "sync", "time", "io-util"] }
+axum = { version = "0.8", default-features = false, features = ["http1", "tokio"] }
+reqwest = { version = "0.13", default-features = false, features = ["rustls", "stream", "system-proxy"] }
+futures-util = { version = "0.3", default-features = false, features = ["std"] }
+bytes = "1"
+clap = { version = "4", features = ["derive"] }
+chrono = { version = "0.4", default-features = false, features = ["clock"] }
+libc = "0.2"
+
+[dev-dependencies]
+tempfile = "3"

@@ -1,0 +1,20 @@
+[package]
+name = "cliff-core"
+description = "CliffCompaction core: canonical hashing, dialects, compaction and the request engine (no IO)"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+serde_json.workspace = true
+sha2.workspace = true
+regex.workspace = true
+log.workspace = true
+rayon.workspace = true
+hashlink.workspace = true
+
+[dev-dependencies]
+base64 = "0.22"
